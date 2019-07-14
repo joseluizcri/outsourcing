@@ -1,5 +1,5 @@
 <!doctype html>
-<html ng-app="pedidex">
+<html ng-app="outsourcing">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,7 +7,7 @@
     <meta name="author" content="">
     <link rel="icon" href="favicon.ico">
 
-    <title>Pedidex</title>
+    <title>Gerenciamento de contratos de locações</title>
 
     <!-- Bootstrap core CSS -->
     <link href="dist/css/bootstrap.min.css" rel="stylesheet">
@@ -19,7 +19,7 @@
 
   <body>
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Pedidex</a>
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#">Gerencimento de contratos</a>
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
           <a class="nav-link" href="#">Sair</a>
@@ -41,19 +41,25 @@
               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span class="fa fa-file-alt"></span>
-                  Pedidos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span class="fa fa-shopping-cart"></span>
-                  Produtos
+                  Contratos
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" ui-sref="clientes" ui-sref-active="active">
                   <span class="fa fa-users"></span>
                   Clientes
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="#">
+                  <span class="fa fa-print"></span>
+                  Equipamentos
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" ui-sref="fabricantes" ui-sref-active="active">
+                  <span class="fa fa-building"></span>
+                  Fabricantes
                 </a>
               </li>
             </ul>
@@ -79,5 +85,11 @@
     <script src="https://unpkg.com/@uirouter/angularjs/release/angular-ui-router.min.js"></script>
 
     <script src="js/main.js"></script>
+    <script src="js/clientes/list.controller.js"></script>
+    <script src="js/clientes/form.controller.js"></script>
+    <script src="js/clientes/service.js"></script>
+    <script src="js/fabricantes/list.controller.js"></script>
+    <script src="js/fabricantes/form.controller.js"></script>
+    <script src="js/fabricantes/service.js"></script>
   </body>
 </html>
