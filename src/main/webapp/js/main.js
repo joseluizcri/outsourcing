@@ -77,5 +77,27 @@ function AppConfig($stateProvider) {
             templateUrl: '/views/equipamentos/form.html',
             controller: 'EquipamentoFormController',
             controllerAs: 'vm'
+        })
+        //CONTRATOS
+        .state({
+            name: 'contratos',
+            url: '/contratos',
+            templateUrl: '/views/contratos/list.html',
+            controller: 'ContratoListController',
+            controllerAs: 'vm'
+        })
+        .state({
+            name: 'contratosNovo',
+            url: '/contratos/novo',
+            templateUrl: '/views/contratos/form.html',
+            controller: 'ContratoFormController',
+            controllerAs: 'vm'
+        })
+        .state({
+            name: 'contratosEditar',
+            url: '/contratos/:id',
+            templateUrl: '/views/contratos/form.html',
+            controller: 'ContratoFormController',
+            controllerAs: 'vm'
         });
 }
