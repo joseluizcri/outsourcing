@@ -1,7 +1,7 @@
 swarm:
   datasources:
     data-sources:
-      CondominioDS:
+      OutsourcingDS:
         driver-name: postgresql
         connection-url: jdbc:postgresql://localhost:5432/jose.luiz
         user-name: postgres
