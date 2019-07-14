@@ -12,6 +12,7 @@ function AppConfig($stateProvider) {
             url: '/',
             templateUrl: '/views/dashboard.html'
         })
+        //CLIENTES
         .state({
             name: 'clientes',
             url: '/clientes',
@@ -33,6 +34,7 @@ function AppConfig($stateProvider) {
             controller: 'ClienteFormController',
             controllerAs: 'vm'
         })
+        //FRABRICANTES
         .state({
             name: 'fabricantes',
             url: '/fabricantes',
@@ -52,6 +54,28 @@ function AppConfig($stateProvider) {
             url: '/fabricantes/:id',
             templateUrl: '/views/fabricantes/form.html',
             controller: 'FabricanteFormController',
+            controllerAs: 'vm'
+        })
+        //EQUIPAMENTOS
+        .state({
+            name: 'equipamentos',
+            url: '/equipamentos',
+            templateUrl: '/views/equipamentos/list.html',
+            controller: 'EquipamentoListController',
+            controllerAs: 'vm'
+        })
+        .state({
+            name: 'equipamentosNovo',
+            url: '/equipamentos/novo',
+            templateUrl: '/views/equipamentos/form.html',
+            controller: 'EquipamentoFormController',
+            controllerAs: 'vm'
+        })
+        .state({
+            name: 'equipamentosEditar',
+            url: '/equipamentos/:id',
+            templateUrl: '/views/equipamentos/form.html',
+            controller: 'EquipamentoFormController',
             controllerAs: 'vm'
         });
 }

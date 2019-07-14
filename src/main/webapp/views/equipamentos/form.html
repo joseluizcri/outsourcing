@@ -1,0 +1,33 @@
+<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+    <h1 class="h2">{{vm. titulo}}</h1>
+</div>
+<form>
+    <div class="form-row">
+        <div class="form-group col-md-4">
+            <label>Patrimônio</label>
+            <input ng-class="{ 'is-invalid': vm.errors.patrimonio }" ng-model="vm.equipamento.patrimonio" type="text" class="form-control">
+            <div ng-if="vm.errors.patrimonio" class="invalid-feedback">{{vm.errors.patrimonio[1]}}</div>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Fabricante</label>
+            <select ng-class="{'is-invalid': vm.error.fabricante}" ng-options="item as item.nome for item in vm.fabricantes track by item.id"
+                ng-model="vm.equipamento.fabricante" class="form-control">
+            </select>
+            <div ng-if="vm.errors.fabricante" class="invalid-feedback">{{vm.errors.fabricante[1]}}</div>
+        </div>
+        <div class="form-group col-md-4">
+            <label>Modelo</label>
+            <input ng-class="{ 'is-invalid': vm.errors.modelo }" ng-model="vm.equipamento.modelo" type="text" class="form-control">
+            <div ng-if="vm.errors.modelo" class="invalid-feedback">{{vm.errors.modelo[1]}}</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <label>Descrição</label>
+        <textarea ng-class="{ 'is-invalid': vm.errors.descricao }" ng-model="vm.equipamento.descricao" type="text" class="form-control"/>
+        <div ng-if="vm.errors.descricao" class="invalid-feedback">{{vm.errors.descricao[1]}}</div>
+    </div>
+    <div class="mb-2 text-lg-right">
+        <button ng-click="vm.save()" type="button" class="btn btn-success">Salvar</button>
+        <button ui-sref="equipamentos" type="button" class="btn btn-outline-danger">Cancelar</button>
+    </div>
+</form>
