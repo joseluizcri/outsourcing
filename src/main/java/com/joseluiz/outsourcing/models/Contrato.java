@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
 
@@ -22,7 +23,10 @@ public class Contrato implements Entidade{
     @Column(name = "I_CONTRATOS")
     @GeneratedValue(generator = "contrato_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
+    @NotNull(message = "O campo número do contrado não pode ser nulo")
+    @Column(unique = true)
     private Long numero;
+    @NotNull(message = "O campo data de inicio do contrato não pode ser nulo")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dataInicio;
     @Temporal(TemporalType.TIMESTAMP)
@@ -31,10 +35,11 @@ public class Contrato implements Entidade{
     @ManyToOne
     @JoinColumn(name = "I_CLIENTES",
             foreignKey = @ForeignKey(name = "FK_CONTRATO_CLIENTE", value = ConstraintMode.CONSTRAINT))
+    @NotNull(message = "O campo cliente não pode ser nulo")
     private Cliente cliente;
 
     @OneToMany(fetch = FetchType.EAGER)
-    @JoinColumn(name = "ID_CONTRATO")
+    @JoinColumn(name = "I_CONTRATOS")
     private List<EquipamentoContrato> equipamentosContrato;
 
 }

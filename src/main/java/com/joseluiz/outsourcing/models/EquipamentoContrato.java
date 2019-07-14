@@ -5,6 +5,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Getter
@@ -23,8 +26,15 @@ public class EquipamentoContrato implements Entidade{
 
     @ManyToOne
     @JoinColumn(name = "I_EQUIPAMENTOS")
+    @NotNull(message = "O campo equipamento não pode ser nulo")
     private Equipamento equipamento;
+    @NotNull(message = "O campo quantidade não pode ser nulo")
+    @Min(value = 1, message = "A quantidade não pode ser menor que {value}")
     private Integer quantidade;
+    @NotNull(message = "O campo valor unitário não pode ser nulo")
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal valorUnitario;
+    @NotNull(message = "O campo valor total não pode ser nulo")
+    @Digits(integer = 10, fraction = 2)
     private BigDecimal valorTotal;
 }
