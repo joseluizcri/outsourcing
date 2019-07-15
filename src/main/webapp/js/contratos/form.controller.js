@@ -3,9 +3,9 @@
     angular.module('outsourcing')
         .controller('ContratoFormController', ContratoFormController);
 
-    ContratoFormController.$inject = ['ContratoService', '$state', '$stateParams', 'ClienteService', 'EquipamentoService'];
+    ContratoFormController.$inject = ['ContratoService', '$state', '$stateParams', 'ClienteService', 'EquipamentoService', 'DialogBuilder'];
 
-    function ContratoFormController (ContratoService, $state, $stateParams, ClienteService, EquipamentoService) {
+    function ContratoFormController (ContratoService, $state, $stateParams, ClienteService, EquipamentoService, DialogBuilder) {
         var vm = this;
         vm.titulo = 'Novo Contrato';
         vm.contrato = {};
@@ -82,12 +82,12 @@
             if (vm.contrato.id) {
                 ContratoService.update(vm.contrato)
                     .then(function (data) {
-                        alert('Contrato atualizado com sucesso!!!');
+                        DialogBuilder.message('Contrato atualizado com sucesso!');
                         $state.go('contratos');
                     })
                     .catch(function (error) {
                         vm.errors = error.data;
-                        alert('Erro ao atualizar contrato');
+                        DialogBuilder.error('Erro ao atualizar contrato!');
                     });
             } else {
                 ContratoService.insert(vm.contrato)

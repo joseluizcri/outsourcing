@@ -3,9 +3,9 @@
     angular.module('outsourcing')
         .controller('ContratoListController', ContratoListController);
 
-    ContratoListController.$inject = ['ContratoService'];
+    ContratoListController.$inject = ['ContratoService', 'DialogBuilder'];
 
-    function ContratoListController (ContratoService) {
+    function ContratoListController (ContratoService, DialogBuilder) {
         var vm = this;
         vm.contratos = [];
 
@@ -52,17 +52,19 @@
         }
         
         vm.remove = function (id) {
-            if (confirm('Deseja realmente excluir o contrato?')) {
-                ContratoService.remove(id)
-                    .then(function () {
-                        alert('Contrato excluído com sucesso!');
-                        _load();
-                    })
-                    .catch(function (error) {
-                        alert('Problemas ao excluir o contrato [' + error.code + ']!');
-                    });
-
-            }
+            DialogBuilder.confirm('Tem certeza que deseja remover o registro?')
+                .then(function (result) {
+                    if (result.value) {
+                        ContratoService.remove(id)
+                            .then(function () {
+                                DialogBuilder.message('Contrato excluído com sucesso!');
+                                _load();
+                            })
+                            .catch(function (error) {
+                                DialogBuilder.error('Problemas ao excluir o contrato [' + error.code + ']!');
+                            });
+                    }
+                });
         }
     }
 
