@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotNull;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -38,8 +40,11 @@ public class Contrato implements Entidade{
     @NotNull(message = "O campo cliente não pode ser nulo")
     private Cliente cliente;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "I_CONTRATOS")
     private List<EquipamentoContrato> equipamentosContrato;
+
+    @Digits(integer = 10, fraction = 2)
+    private BigDecimal valorTotal;
 
 }

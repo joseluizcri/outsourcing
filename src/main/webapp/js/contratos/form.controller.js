@@ -3,17 +3,30 @@
     angular.module('outsourcing')
         .controller('ContratoFormController', ContratoFormController);
 
-    ContratoFormController.$inject = ['ContratoService', '$state', '$stateParams', 'ClienteService'];
+    ContratoFormController.$inject = ['ContratoService', '$state', '$stateParams', 'ClienteService', 'EquipamentoService'];
 
-    function ContratoFormController (ContratoService, $state, $stateParams, ClienteService) {
+    function ContratoFormController (ContratoService, $state, $stateParams, ClienteService, EquipamentoService) {
         var vm = this;
         vm.titulo = 'Novo Contrato';
         vm.contrato = {};
+        vm.equipamentoContrato = {
+            equipamento : null,
+            quantidade : null,
+            valorUnitario : null,
+            valorTotal : null
+        };
+        vm.contrato.equipamentosContrato = [];
         vm.clientes = [];
+        vm.equipamentos = [];
 
         ClienteService.findAll()
             .then(function(obj) {
                 vm.clientes = obj.data;
+            });
+
+        EquipamentoService.findAll()
+            .then(function(obj) {
+                vm.equipamentos = obj.data;
             });
 
         if ($stateParams.id) {
@@ -24,8 +37,45 @@
                     if (data.dataFim) {
                         data.dataFim = new Date(data.dataFim);
                     }
+                    if (!data.equipamentosContrato) {
+                        data.equipamentosContrato = [];
+                    }
                     vm.contrato = data;
                 });
+        }
+
+        vm.editarEquipamentoContrato = function(item) {
+            vm.itemOriginal = item;
+            angular.copy(item, vm.equipamentoContrato);
+        }
+
+        vm.addEquipamentoContrato = function (){
+
+            var index = vm.contrato.equipamentosContrato.indexOf(vm.itemOriginal);
+            if (index != -1) {
+                vm.contrato.equipamentosContrato[index] = vm.equipamentoContrato;
+            } else {
+                vm.contrato.equipamentosContrato.push(vm.equipamentoContrato);
+            }
+
+            vm.itemOriginal = null;
+            vm.equipamentoContrato = {};
+
+            vm.contrato.valorTotal = 0;
+            vm.contrato.equipamentosContrato.forEach(function (item) {
+                vm.contrato.valorTotal += item.valorTotal;
+            });
+
+        }
+
+        vm.removerEquipamentoContrato = function (item) {
+            var index = vm.contrato.equipamentosContrato.indexOf(item);
+            vm.contrato.equipamentosContrato.splice(index, 1);
+
+            vm.contrato.valorTotal = 0;
+            vm.contrato.equipamentosContrato.forEach(function (item) {
+                vm.contrato.valorTotal += item.valorTotal;
+            });
         }
 
         vm.save = function () {
@@ -51,6 +101,10 @@
                     });
             }
         };
+
+        vm.calcularValorTotal = function (){
+            vm.equipamentoContrato.valorTotal = vm.equipamentoContrato.quantidade * vm.equipamentoContrato.valorUnitario;
+        }
 
     }
 
