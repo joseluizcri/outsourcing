@@ -47,4 +47,6 @@ public class Contrato implements Entidade{
     @Digits(integer = 10, fraction = 2)
     private BigDecimal valorTotal;
 
+    private Boolean ativo;
+
 }

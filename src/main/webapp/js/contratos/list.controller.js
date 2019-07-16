@@ -66,6 +66,29 @@
                     }
                 });
         }
+
+        diferencaData = function(dataContrato){
+            date1 = new Date();
+            date1.setHours(0,0,0,0);
+            date2 = new Date(dataContrato);
+            timeDiff = (date2 - date1);
+            return timeDiff/(24*60*60*1000);
+        }
+
+        vm.formatarClass = function(item){
+            classe = '';
+            diasParaEncerrar = diferencaData(item.dataFim);
+            if (item.dataFim && item.ativo) {
+                if (diasParaEncerrar >= 1 && diasParaEncerrar <= 30 ) {
+                    classe += 'table-warning ';
+                } else if (diasParaEncerrar < 1) {
+                    classe += 'table-danger ';
+                }
+            }
+            
+            return classe;
+        }
+        
     }
 
 })();

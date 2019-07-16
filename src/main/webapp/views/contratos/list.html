@@ -26,6 +26,8 @@
     <table class="table table-striped table-sm">
         <thead>
             <tr>
+                <th></th>
+                <th></th>
                 <th>Numero</th>
                 <th>Cliente</th>
                 <th>Inínio</th>
@@ -34,7 +36,9 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in vm.contratos">
+            <tr ng-repeat="item in vm.contratos" ng-class="vm.formatarClass(item)">
+                <td><i class="fa fa-thumbs-down" ng-class="item.ativo ? 'fa-thumbs-up text-success':'fa-thumbs-down text-danger'"></i></td>
+                <td>{{vm.diferencaData(item.dataFim)}}</td>
                 <td>{{item.numero}}</td>
                 <td>{{item.cliente.nome}}</td>
                 <td>{{item.dataInicio | date:'dd/MM/yyyy'}}</td>

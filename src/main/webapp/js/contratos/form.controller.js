@@ -19,6 +19,8 @@
         vm.clientes = [];
         vm.equipamentos = [];
 
+        vm.boolToStr = function(arg) {return arg ? 'Ativo' : 'Inativo'};
+
         ClienteService.findAll()
             .then(function(obj) {
                 vm.clientes = obj.data;
