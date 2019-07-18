@@ -9,15 +9,15 @@
 </div>
 <form class="form-inline d-block">
     <div class="input-group mb-2 mr-sm-2">
-        <div class="input-group-prepend">
-            <label class="my-1 mr-2">Filtrar por nome</label>
-        </div>
-        <input ng-model="vm.filter" type="text" class="form-control">
-        <div class="input-group-append">
-            <button ng-click="vm.limpar()" type="button" class="btn btn-sm btn-light border">X</button>
-        </div>
+        <input ng-model="vm.filter" type="text" class="form-control" placeholder="Buscar contrato por nome do cliente">
         <div class="input-group-append">
             <button ng-click="vm.filtrar()" type="button" class="btn btn-sm btn-success">Buscar</button>
+        </div>
+        <div class="input-group-append">
+            <button ng-click="vm.limpar()" type="button" class="btn btn-sm btn-light">Limpar</button>
+        </div>
+        <div class="input-group-append">
+            <button ng-click="vm.vencidos()" type="button" class="btn btn-sm btn-light">Listar vencidos</button>
         </div>
         
     </div>
@@ -27,22 +27,25 @@
         <thead>
             <tr>
                 <th></th>
-                <th></th>
                 <th>Numero</th>
                 <th>Cliente</th>
                 <th>Inínio</th>
                 <th>Fim</th>
+                <th>Valor do contrato</th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="item in vm.contratos" ng-class="vm.formatarClass(item)">
-                <td><i class="fa fa-thumbs-down" ng-class="item.ativo ? 'fa-thumbs-up text-success':'fa-thumbs-down text-danger'"></i></td>
-                <td>{{vm.diferencaData(item.dataFim)}}</td>
+            <tr ng-repeat="item in vm.contratos" ng-class="vm.vencimento(item).classe">
+                <td>
+                    <i ng-if="!vm.vencimento(item).vencida && item.ativo" class="fa fa-thumbs-up text-success" title="Contrato ativo"></i>
+                    <i ng-if="vm.vencimento(item).vencida && item.ativo" class="fa fa-thumbs-down text-danger" title="Contrato vencido"></i>
+                </td>
                 <td>{{item.numero}}</td>
                 <td>{{item.cliente.nome}}</td>
                 <td>{{item.dataInicio | date:'dd/MM/yyyy'}}</td>
                 <td>{{item.dataFim | date:'dd/MM/yyyy'}}</td>
+                <td>{{item.valorTotal | currency:"R$ "}}</td>
                 <td class="text-right">
                     <a ui-sref="contratosEditar({ id: item.id })" class="btn p-0 btn-sm btn-link">
                         <i class="fa fa-edit"></i>

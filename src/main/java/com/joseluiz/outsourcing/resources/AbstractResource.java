@@ -37,6 +37,28 @@ public abstract class AbstractResource<T extends Entidade> {
         return response;
     }
 
+    @GET
+    @Path("/data")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response findAllByData(
+            @DefaultValue("20") @QueryParam("pageSize") Integer pageSize,
+            @DefaultValue("1") @QueryParam("page") Integer page,
+            @QueryParam("filterField") String filterField,
+            @QueryParam("filterData") String filterData,
+            @QueryParam("sort") String sort,
+            @QueryParam("comparador") String comparador
+    ) {
+        Long total = getService().getCountByData(filterField, filterData, comparador);
+        Response.Status responseStatus = (page * pageSize < total) ? Response.Status.PARTIAL_CONTENT : Response.Status.OK;
+        Response response = Response.status(responseStatus)
+                .entity(getService().findAllByData(pageSize, page, filterField, filterData, sort, comparador)).build();
+        response.getHeaders().add("X-Total-Length", total);
+        response.getHeaders().add("X-Page-Size", pageSize);
+        response.getHeaders().add("X-Current-Page", page);
+
+        return response;
+    }
+
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)

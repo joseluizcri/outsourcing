@@ -14,7 +14,26 @@
             var urlFinal = URL + '?pageSize=' + (pageSize || 20)
                 + '&page=' + (page || 1) + '&sort=' + (sort || 'numero');
             if (filter) {
-                urlFinal += '&filterField=numero&filterData=' + filter;
+                urlFinal += '&filterField=cliente.nome&filterData=' + filter;
+            }
+            
+            return $http.get(urlFinal)
+                .then(function(response) {
+                    return {
+                        data: response.data,
+                        count: response.headers('X-Total-Length'),
+                        page: response.headers('X-Current-Page'),
+                        pageSize: response.headers('X-Page-Size'),
+                        finish: response.status === 200
+                    };
+                });
+        }
+
+        service.findByData = function (page, pageSize, filterField, filter, sort, comparador) {
+            var urlFinal = URL + '/data?pageSize=' + (pageSize || 20)
+                + '&page=' + (page || 1) + '&sort=' + (sort || 'numero');
+            if (filter) {
+                urlFinal += '&filterField=' + filterField + '&filterData=' + filter + '&comparador=' +comparador;
             }
             
             return $http.get(urlFinal)

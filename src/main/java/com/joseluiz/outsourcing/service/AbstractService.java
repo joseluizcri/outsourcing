@@ -20,9 +20,21 @@ public abstract class AbstractService<T extends Entidade> {
     public Long getCount(String filterField, String filterData) {
         return getDao().getCount(filterField, filterData);
     }
+
+    public Long getCountByData(String filterField, String filterData, String comparador) {
+        return getDao().getCountByData(filterField, filterData, comparador);
+    }
     
     public T findOne(Long id) {
         return getDao().find(id);
+    }
+
+    public List<T> findAllByData(Integer pageSize, Integer pageNumber, String filterField, String filterData, String order, String comparador) {
+        return getDao().findAllByData(pageSize, pageNumber, filterField, filterData, order, comparador);
+    }
+
+    public List<T> findAllByData(String filterField, String filterData, String order, String comparador) {
+        return getDao().findAllByData(filterField, filterData, order, comparador);
     }
     
     @TransactionAttribute(TransactionAttributeType.REQUIRED)

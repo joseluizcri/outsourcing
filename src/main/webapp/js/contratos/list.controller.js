@@ -9,6 +9,18 @@
         var vm = this;
         vm.contratos = [];
 
+        function formatDate(date) {
+            var d = new Date(date),
+                month = '' + (d.getMonth() + 1),
+                day = '' + d.getDate(),
+                year = d.getFullYear();
+        
+            if (month.length < 2) month = '0' + month;
+            if (day.length < 2) day = '0' + day;
+        
+            return [year, month, day].join("");
+        }
+
         function _load() {
             ContratoService.findAll(vm.page, vm.pageSize, vm.filter, vm.sort)
                 .then(function(obj) {
@@ -19,7 +31,25 @@
                     vm.pages = _pages(obj.pageSize, obj.count);
                 });
         }
+
+        function _loadByData(filterField, comparador) {
+            data = new Date();
+            filter = formatDate(data);
+            ContratoService.findByData(vm.page, vm.pageSize, filterField, filter, vm.sort, comparador)
+                .then(function(obj) {
+                    vm.contratos = obj.data;
+                    vm.pageSize = obj.pageSize;
+                    vm.page = obj.page;
+                    vm.finish = obj.finish;
+                    vm.pages = _pages(obj.pageSize, obj.count);
+                });
+        }
+
         _load();
+
+        vm.vencidos = function() {
+            _loadByData("dataFim", "less");
+        }
 
         function _pages(pageSize, count) {
             var pages = count / pageSize;
@@ -75,18 +105,20 @@
             return timeDiff/(24*60*60*1000);
         }
 
-        vm.formatarClass = function(item){
-            classe = '';
+        vm.vencimento = function(item){
+            vencimento = [];
+            vencimento['vencida'] = false;
             diasParaEncerrar = diferencaData(item.dataFim);
             if (item.dataFim && item.ativo) {
                 if (diasParaEncerrar >= 1 && diasParaEncerrar <= 30 ) {
-                    classe += 'table-warning ';
+                    vencimento['classe'] = 'table-warning ';
                 } else if (diasParaEncerrar < 1) {
-                    classe += 'table-danger ';
+                    vencimento['classe'] = 'table-danger ';
+                    vencimento['vencida'] = true;
                 }
             }
             
-            return classe;
+            return vencimento;
         }
         
     }

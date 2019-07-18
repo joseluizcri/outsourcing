@@ -1,7 +1,12 @@
 package com.joseluiz.outsourcing.utils;
 
 import com.joseluiz.outsourcing.models.Entidade;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityNotFoundException;
@@ -66,6 +71,32 @@ public class GenericDao<T extends Entidade> {
         }
         return helper.count();
     }
+
+    public Long getCountByData(String filterField, String filterData, String comparador) {
+        Date data = null;
+        if (!filterData.isEmpty()) {
+            try {
+                data = new SimpleDateFormat("yyyyMMdd").parse(filterData);
+            }catch (Exception e){
+                return 0L;
+            }
+        } else {
+            return 0L;
+        }
+
+        JpaCriteriaHelper.ComparatorOperator comparatorOperator = JpaCriteriaHelper.ComparatorOperator.EQUAL;
+        if (comparador.equals("greater")) {
+            comparatorOperator = JpaCriteriaHelper.ComparatorOperator.GREATER_THAN;
+        } else if (comparador.equals("less")) {
+            comparatorOperator = JpaCriteriaHelper.ComparatorOperator.LESS_THAN;
+        }
+
+        JpaCriteriaHelper helper = JpaCriteriaHelper.select(em, type);
+        if (nomEmpty(filterField, filterData)) {
+            helper.where(asListString(filterField), comparatorOperator, data);
+        }
+        return helper.count();
+    }
     
     public List<T> findAll(Integer pageSize, Integer pageNumber, String filterField, String filterData, String order) {
         JpaCriteriaHelper helper = JpaCriteriaHelper.select(em, type);
@@ -92,5 +123,48 @@ public class GenericDao<T extends Entidade> {
             throw new EntityNotFoundException();
         }
         return bean;
+    }
+
+    public List<T> findAllByData(String filterField, String filterData, String order, String comparador) {
+        return findAllByData(null, null, filterField, filterData, order, comparador);
+    }
+
+    public List<T> findAllByData(Integer pageSize, Integer pageNumber, String filterField, String filterData, String order, String comparador) {
+
+        Date data = null;
+        if (!filterData.isEmpty()) {
+            try {
+                data = new SimpleDateFormat("yyyyMMdd").parse(filterData);
+            }catch (Exception e){
+                return Collections.emptyList();
+            }
+        } else {
+            return Collections.emptyList();
+        }
+
+        JpaCriteriaHelper helper = JpaCriteriaHelper.select(em, type);
+        if (pageSize != null && pageNumber != null) {
+            helper.setPageSize(pageSize)
+                    .page(pageNumber);
+        }
+
+        JpaCriteriaHelper.ComparatorOperator comparatorOperator = JpaCriteriaHelper.ComparatorOperator.EQUAL;
+        if (comparador.equals("greater")) {
+            comparatorOperator = JpaCriteriaHelper.ComparatorOperator.GREATER_THAN;
+        } else if (comparador.equals("less")) {
+            comparatorOperator = JpaCriteriaHelper.ComparatorOperator.LESS_THAN;
+        }
+
+        if (nomEmpty(filterField, filterData)) {
+            helper.where(asListString(filterField), comparatorOperator, data);
+        }
+        if (nomEmpty(order)) {
+            String[] parts = order.split("\\+");
+            helper.orderBy(parts[0]);
+            if (parts.length > 1 && parts[1].equalsIgnoreCase("desc")) {
+                helper.desc();
+            }
+        }
+        return helper.getResults();
     }
 }

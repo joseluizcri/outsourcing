@@ -9,17 +9,13 @@
 </div>
 <form class="form-inline d-block">
     <div class="input-group mb-2 mr-sm-2">
-        <div class="input-group-prepend">
-            <label class="my-1 mr-2">Filtrar por nome</label>
-        </div>
-        <input ng-model="vm.filter" type="text" class="form-control">
-        <div class="input-group-append">
-            <button ng-click="vm.limpar()" type="button" class="btn btn-sm btn-light border">X</button>
-        </div>
+        <input ng-model="vm.filter" type="text" class="form-control" placeholder="Buscar cliente por nome">
         <div class="input-group-append">
             <button ng-click="vm.filtrar()" type="button" class="btn btn-sm btn-success">Buscar</button>
         </div>
-        
+        <div class="input-group-append">
+            <button ng-click="vm.limpar()" type="button" class="btn btn-sm btn-light">Limpar</button>
+        </div>
     </div>
 </form>
 <div class="table-responsive">

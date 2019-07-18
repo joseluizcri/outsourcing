@@ -11,7 +11,7 @@
     <div class="form-row">
         <div class="form-group col-md-4">
             <label>Numero</label>
-            <input ng-class="{ 'is-invalid': vm.errors.numero }" ng-model="vm.contrato.numero" type="text" class="form-control">
+            <input disabled ng-class="{ 'is-invalid': vm.errors.numero }" ng-model="vm.contrato.numero" type="text" class="form-control">
             <div ng-if="vm.errors.numero" class="invalid-feedback">{{vm.errors.numero[1]}}</div>
         </div>
         <div class="form-group col-md-8">
