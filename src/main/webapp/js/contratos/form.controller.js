@@ -94,12 +94,12 @@
             } else {
                 ContratoService.insert(vm.contrato)
                     .then(function (data) {
-                        alert('Contrato inserido com sucesso!!!');
+                        DialogBuilder.message('Contrato inserido com sucesso!');
                         $state.go('contratos');
                     })
                     .catch(function (error) {
                         vm.errors = error.data;
-                        alert('Erro ao salvar contrato');
+                        DialogBuilder.error('Erro ao salvar contrato!');
                     });
             }
         };

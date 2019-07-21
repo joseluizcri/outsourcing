@@ -3,9 +3,9 @@
     angular.module('outsourcing')
         .controller('ClienteFormController', ClienteFormController);
 
-    ClienteFormController.$inject = ['ClienteService', '$state', '$stateParams'];
+    ClienteFormController.$inject = ['ClienteService', '$state', '$stateParams', 'DialogBuilder'];
 
-    function ClienteFormController (ClienteService, $state, $stateParams) {
+    function ClienteFormController (ClienteService, $state, $stateParams, DialogBuilder) {
         var vm = this;
         vm.titulo = 'Novo Cliente';
         vm.cliente = {};
@@ -22,22 +22,22 @@
             if (vm.cliente.id) {
                 ClienteService.update(vm.cliente)
                     .then(function (data) {
-                        alert('Cliente atualizado com sucesso!!!');
+                        DialogBuilder.message('Cliente atualizado com sucesso!');
                         $state.go('clientes');
                     })
                     .catch(function (error) {
                         vm.errors = error.data;
-                        alert('Erro ao atualizar cliente');
+                        DialogBuilder.error('Erro ao atualizar cliente!');
                     });
             } else {
                 ClienteService.insert(vm.cliente)
                     .then(function (data) {
-                        alert('Cliente inserido com sucesso!!!');
+                        DialogBuilder.message('Cliente inserido com sucesso!');
                         $state.go('clientes');
                     })
                     .catch(function (error) {
                         vm.errors = error.data;
-                        alert('Erro ao salvar cliente');
+                        DialogBuilder.error('Erro ao salvar cliente!');
                     });
             }
         };

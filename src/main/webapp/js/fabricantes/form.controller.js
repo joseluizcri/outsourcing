@@ -3,9 +3,9 @@
     angular.module('outsourcing')
         .controller('FabricanteFormController', FabricanteFormController);
 
-    FabricanteFormController.$inject = ['FabricanteService', '$state', '$stateParams'];
+    FabricanteFormController.$inject = ['FabricanteService', '$state', '$stateParams', 'DialogBuilder'];
 
-    function FabricanteFormController (FabricanteService, $state, $stateParams) {
+    function FabricanteFormController (FabricanteService, $state, $stateParams, DialogBuilder) {
         var vm = this;
         vm.titulo = 'Novo Fabricante';
         vm.fabricante = {};
@@ -22,22 +22,22 @@
             if (vm.fabricante.id) {
                 FabricanteService.update(vm.fabricante)
                     .then(function (data) {
-                        alert('Fabricante atualizado com sucesso!!!');
+                        DialogBuilder.message('Fabricante atualizado com sucesso!');
                         $state.go('fabricantes');
                     })
                     .catch(function (error) {
                         vm.errors = error.data;
-                        alert('Erro ao atualizar fabricante');
+                        DialogBuilder.error('Erro ao atualizar fabricante!');
                     });
             } else {
                 FabricanteService.insert(vm.fabricante)
                     .then(function (data) {
-                        alert('Fabricante inserido com sucesso!!!');
+                        DialogBuilder.message('Fabricante inserido com sucesso!');
                         $state.go('fabricantes');
                     })
                     .catch(function (error) {
                         vm.errors = error.data;
-                        alert('Erro ao salvar fabricante');
+                        DialogBuilder.error('Erro ao salvar fabricante!');
                     });
             }
         };
