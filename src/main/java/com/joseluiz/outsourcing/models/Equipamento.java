@@ -21,9 +21,6 @@ public class Equipamento implements Entidade{
     @Column(name = "I_EQUIPAMENTOS")
     @GeneratedValue(generator = "equipamento_seq", strategy = GenerationType.SEQUENCE)
     private Long id;
-    @NotNull(message = "O campo patrimônio não pode ser nulo")
-    @Column(unique = true)
-    private Long patrimonio;
     @NotNull(message = "O campo fabricante não pode ser nulo")
     private Fabricante fabricante;
     @NotNull(message = "O campo modelo não pode ser nulo")

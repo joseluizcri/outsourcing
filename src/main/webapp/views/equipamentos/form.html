@@ -3,19 +3,14 @@
 </div>
 <form>
     <div class="form-row">
-        <div class="form-group col-md-4">
-            <label>Patrimônio</label>
-            <input ng-class="{ 'is-invalid': vm.errors.patrimonio }" ng-model="vm.equipamento.patrimonio" type="text" class="form-control">
-            <div ng-if="vm.errors.patrimonio" class="invalid-feedback">{{vm.errors.patrimonio[1]}}</div>
-        </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <label>Fabricante</label>
             <select ng-class="{'is-invalid': vm.error.fabricante}" ng-options="item as item.nome for item in vm.fabricantes track by item.id"
                 ng-model="vm.equipamento.fabricante" class="form-control">
             </select>
             <div ng-if="vm.errors.fabricante" class="invalid-feedback">{{vm.errors.fabricante[1]}}</div>
         </div>
-        <div class="form-group col-md-4">
+        <div class="form-group col-md-6">
             <label>Modelo</label>
             <input ng-class="{ 'is-invalid': vm.errors.modelo }" ng-model="vm.equipamento.modelo" type="text" class="form-control">
             <div ng-if="vm.errors.modelo" class="invalid-feedback">{{vm.errors.modelo[1]}}</div>
